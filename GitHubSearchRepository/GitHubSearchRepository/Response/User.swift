@@ -1,5 +1,8 @@
+import Foundation
+
 //JSONのリソースに対応する為の構造体User型を定義
-struct User {
+//エラーメッセージを使用する為にJSONDecodableプロトコルを準拠
+struct User : JSONDecodable {
     let id: Int
     let login: String
     
