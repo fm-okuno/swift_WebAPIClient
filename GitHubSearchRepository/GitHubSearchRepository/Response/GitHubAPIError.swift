@@ -26,7 +26,7 @@ struct GitHubAPIError : JSONDecodable, Error {
         //初期化を実行。初期値を設定出来ない場合にはエラーを投げる
         init(json: Any) throws {
             guard let dictionary = json as? [String : Any] else {
-                throw JSONDecodeError.invailedFormat(json: json)
+                throw JSONDecodeError.invalidFormat(json: json)
             }
             
             guard let resource = dictionary["resource"] as? String else {
@@ -47,14 +47,14 @@ struct GitHubAPIError : JSONDecodable, Error {
                     actualValue: dictionary["code"])
             }
             
-            self.redource = resource
+            self.resource = resource
             self.field = field
             self.code = code
         }
     }
     
     
-    let messasge: String
+    let message: String
     //errorsプロパティ自体を表すfieldError型のプロパティ「fieldErrors」
     let fieldErrors: [FieldError]
     
@@ -71,11 +71,11 @@ struct GitHubAPIError : JSONDecodable, Error {
         }
         
         let fieldErrorObjects = dictionary["errors"] as? [Any] ?? []
-        let fieldErrors = try fieldErrorObjrcts.map {
+        let fieldErrors = try fieldErrorObjects.map {
             return try FieldError(json: $0)
         }
         
         self.message = message
-        self.fieldErrors = fieldError
+        self.fieldErrors = fieldErrors
     }
 }
